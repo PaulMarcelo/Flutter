@@ -8,7 +8,7 @@ import 'package:mime_type/mime_type.dart';
 import 'package:http_parser/http_parser.dart';
 
 class ProductosProvider {
-  final String _url = '';
+  final String _url = 'https://flutter-varios-e1f01.firebaseio.com';
   final _pref = PreferenciasUsuario();
 
   Future<bool> crearProducto(ProductoModel producto) async {
