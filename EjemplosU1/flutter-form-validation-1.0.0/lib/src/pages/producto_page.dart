@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:formvalidation/src/bloc/provider.dart';
 import 'package:formvalidation/src/model/producto_model.dart';
-import 'package:formvalidation/src/providers/productos_providers.dart';
 import 'package:formvalidation/src/utils/utils.dart' as util;
 import 'package:image_picker/image_picker.dart';
 
@@ -15,12 +15,13 @@ class _ProductoPageState extends State<ProductoPage> {
   final formKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
   ProductoModel producto = ProductoModel();
-  final productosProvider = ProductosProvider();
+  ProductosBloc productosBloc;
   bool _guardando = false;
   File foto;
 
   @override
   Widget build(BuildContext context) {
+    this.productosBloc = ProductosBloc();
     final ProductoModel prodData = ModalRoute.of(context).settings.arguments;
     if (prodData != null) {
       producto = prodData;
@@ -122,12 +123,12 @@ class _ProductoPageState extends State<ProductoPage> {
       _guardando = true;
     });
     if (foto != null) {
-      producto.fotoUrl = await productosProvider.subirImagen(foto);
+      producto.fotoUrl = await this.productosBloc.subirFoto(foto);
     }
     if (producto.id == null) {
-      productosProvider.crearProducto(producto);
+      this.productosBloc.agregarProductos(producto);
     } else {
-      productosProvider.editarProducto(producto);
+      this.productosBloc.editarProductos(producto);
     }
     mostrarSnackbar('Registro guardado');
     Navigator.pop(context);
