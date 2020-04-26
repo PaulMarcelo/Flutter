@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:formvalidation/src/bloc/provider.dart';
 import 'package:formvalidation/src/providers/usuario_providers.dart';
+import 'package:formvalidation/src/utils/utils.dart';
 
 class RegistroPage extends StatelessWidget {
 
@@ -167,12 +168,8 @@ class RegistroPage extends StatelessWidget {
     if ( info['ok'] ) {
        Navigator.pushReplacementNamed(context, 'home');
     } else {
-    //  mostrarAlerta( context, info['mensaje'] );
+      mostrarAlerta( context, info['mensaje'] ); 
     }
-
-
-    // Navigator.pushReplacementNamed(context, 'home');
-
   }
 
 
@@ -218,7 +215,7 @@ class RegistroPage extends StatelessWidget {
             children: <Widget>[
               Icon( Icons.person_pin_circle, color: Colors.white, size: 100.0 ),
               SizedBox( height: 10.0, width: double.infinity ),
-              Text('Fernando Herrera', style: TextStyle( color: Colors.white, fontSize: 25.0 ))
+              Text('Paul Yaguachi', style: TextStyle( color: Colors.white, fontSize: 25.0 ))
             ],
           ),
         )
