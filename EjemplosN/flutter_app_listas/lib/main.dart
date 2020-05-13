@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'modelo/cliente.dart';
 import 'ui/home_page.dart';
 import 'ui/listas_simple_page.dart';
 import 'ui/order_purchase_page.dart';
@@ -20,7 +21,21 @@ class MyApp extends StatelessWidget {
       routes: {
         'home': (BuildContext context) => HomePage(),
         'simple': (BuildContext context) => ListasSimplePage(),
-        'doble': (BuildContext context) => OrderPurchasePage(),
+//        'doble': (BuildContext context) =>
+//            OrderPurchasePage(ModalRoute.of(context).settings.arguments, ""),
+      },
+      onGenerateRoute: (settings) {
+        if (settings.name == "doble") {
+          //Se procesa la ruta con parametros
+          final Cliente cliente = settings.arguments;
+          return MaterialPageRoute(
+            builder: (context) {
+              return OrderPurchasePage(cliente);
+            },
+          );
+        } else {
+          throw 'Route ${settings.name} is not defined';
+        }
       },
     );
   }

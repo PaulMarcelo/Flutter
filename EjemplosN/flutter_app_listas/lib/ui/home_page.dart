@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_listas/modelo/cliente.dart';
 
 class HomePage extends StatelessWidget {
+  final Cliente cliente = Cliente("id1", "Cliente 1");
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +34,8 @@ class HomePage extends StatelessWidget {
     return RaisedButton(
         child: Text("Nuevo Pedido"),
         onPressed: () {
-          Navigator.pushNamed(context, 'doble');
+          //Se pasa el objeto cliente como parametro
+          Navigator.pushNamed(context, 'doble', arguments: cliente);
         });
   }
 }

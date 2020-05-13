@@ -1,12 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_listas/constant/constant_colors.dart';
+import 'package:flutter_app_listas/modelo/cliente.dart';
 import 'package:flutter_app_listas/modelo/producto_entity.dart';
 import 'package:flutter_app_listas/modelo/produto_agregado.dart';
 
 import 'package:flutter_app_listas/util/util.dart' as util;
 
 class OrderPurchasePage extends StatefulWidget {
+  final Cliente cliente;
+  OrderPurchasePage(this.cliente);
   @override
   _OrderPurchasePageState createState() => _OrderPurchasePageState();
 }
@@ -14,10 +17,12 @@ class OrderPurchasePage extends StatefulWidget {
 class _OrderPurchasePageState extends State<OrderPurchasePage> {
   List<ProductoEntity> listaFromDB = List();
   List<ProductoAgregado> listaItemAgregado = List();
+  String titulo;
 
   @override
   void initState() {
     super.initState();
+    this.titulo=widget.cliente.nombre;
     //lleno la primera lista de productos, simulacion de productos recuperados desde la db
     util.fillListProductFormDB().then((rows) {
       setState(() {
@@ -33,7 +38,8 @@ class _OrderPurchasePageState extends State<OrderPurchasePage> {
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
           backgroundColor: ConstColors.colorBlue,
-          title: Text('Nuevo pedido'),
+          //se usa el objeto cliente mediante    widget.cliente.nombre
+          title: Text('Nuevo pedido ' + this.titulo),
           actions: <Widget>[
             util.simplePopup(),
           ],
@@ -54,14 +60,16 @@ class _OrderPurchasePageState extends State<OrderPurchasePage> {
             Expanded(
               child: Container(
                 height: size.height,
-                child: ListView.separated(  //Widget lista
+                child: ListView.separated(
+                    //Widget lista
                     separatorBuilder: (context, index) => Divider(
                           height: 0.1,
                           color: Colors.black,
                         ),
-                    itemCount: listaFromDB.length,//total de items de la lista
+                    itemCount: listaFromDB.length, //total de items de la lista
                     itemBuilder: (BuildContext context, int position) {
-                      return buildRowProducto(position); //funcion que construye la fila del productoDB
+                      return buildRowProducto(
+                          position); //funcion que construye la fila del productoDB
                     }),
               ),
             ),
@@ -70,14 +78,17 @@ class _OrderPurchasePageState extends State<OrderPurchasePage> {
             Expanded(
               child: Container(
                 height: size.height / 2,
-                child: ListView.separated(//Widget lista
+                child: ListView.separated(
+                    //Widget lista
                     separatorBuilder: (context, index) => Divider(
                           height: 0.1,
                           color: Colors.black,
                         ),
-                    itemCount: listaItemAgregado.length,  //total de items de la lista
+                    itemCount: listaItemAgregado.length,
+                    //total de items de la lista
                     itemBuilder: (BuildContext context, int position) {
-                      return buildRowProductoAgregado(position);//funcion que construye la fila del producto agregado
+                      return buildRowProductoAgregado(
+                          position); //funcion que construye la fila del producto agregado
                     }),
               ),
             ),
@@ -153,7 +164,6 @@ class _OrderPurchasePageState extends State<OrderPurchasePage> {
       ],
     );
   }
-
 
   //Metodo para remover el item de la lista
   removeItem(ProductoEntity itemSelection) {
